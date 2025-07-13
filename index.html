@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Oso Madrid - Directorio de Negocios y Experiencias</title>
+    <meta name="description" content="Encuentra los mejores negocios, restaurantes, eventos y experiencias recomendadas en Madrid">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e67e22;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #e67e22;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 .highlight {
+            color: #e67e22;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .hero .tagline {
+            font-size: 1rem;
+            color: #e67e22;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        /* Search Bar */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 18px 50px 18px 20px;
+            font-size: 16px;
+            border: 2px solid #e0e6ed;
+            border-radius: 50px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar:focus {
+            border-color: #e67e22;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #d35400;
+        }
+
+        /* Tools Section */
+        .tools-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .tool-card h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .tool-card p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .tool-btn {
+            background: #e67e22;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .tool-btn:hover {
+            background: #d35400;
+        }
+
+        .coming-soon {
+            background: #f8f9fa;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        /* Features Section */
+        .features {
+            background: #2c3e50;
+            color: white;
+            padding: 80px 20px;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .features h2 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+        }
+
+        .features h2 .highlight {
+            color: #e67e22;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .feature-item p {
+            color: #bdc3c7;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #e67e22;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #34495e;
+            color: #bdc3c7;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer a {
+            color: #e67e22;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .tool-card {
+                padding: 30px;
+            }
+
+            .features h2 {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 16px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .modal input, .modal select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .modal-btn {
+            background: #e67e22;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">🐻 El Oso</a>
+            <ul class="nav-links">
+                <li><a href="#restaurantes">Restaurantes</a></li>
+                <li><a href="#eventos">Eventos</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Tu guía de lo mejor de <span class="highlight">Madrid</span></h1>
+            <p>Herramientas locales para ayudarte a descubrir increíbles restaurantes, eventos y experiencias por toda la capital.</p>
+            <p class="tagline">Hecho por madrileños, para madrileños.</p>
+            
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="¿Qué estás buscando?" id="searchInput">
+                <button class="search-btn" onclick="performSearch()">🔍</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools-section">
+        <div class="tools-grid">
+            <!-- Restaurant Finder -->
+            <div class="tool-card">
+                <div class="tool-icon">🍽️</div>
+                <h3>Buscador de Restaurantes</h3>
+                <p>¿No sabes dónde comer? Haz nuestro quiz rápido y descubre tu lugar perfecto para cenar en Madrid.</p>
+                <a href="#" class="tool-btn" onclick="openRestaurantFinder()">Buscar Restaurantes</a>
+            </div>
+
+            <!-- Event Explorer -->
+            <div class="tool-card">
+                <h3>Explorador de Eventos</h3>
+                <div class="tool-icon">🎭</div>
+                <p>Descubre eventos locales, festivales y actividades que están pasando en Madrid.</p>
+                <a href="#" class="tool-btn coming-soon">Próximamente</a>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="tool-card">
+                <div class="tool-icon">📧</div>
+                <h3>Newsletter El Oso</h3>
+                <p>Recibe los mejores planes de Madrid directamente en tu email todos los días.</p>
+                <a href="#" class="tool-btn" onclick="openNewsletterSignup()">Suscribirse</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <h2>Construido para <span class="highlight">Madrid</span></h2>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🌴</div>
+                    <h3>Conocimiento Local</h3>
+                    <p>Creado por gente que vive aquí y conoce la ciudad por dentro y por fuera</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Rápido y Simple</h3>
+                    <p>Nada de apps complicadas. Solo herramientas rápidas y útiles cuando las necesitas</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">💎</div>
+                    <h3>Siempre Gratis</h3>
+                    <p>Todas nuestras herramientas son gratuitas porque creemos en apoyar a nuestra comunidad</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2>¿Tienes una idea para una herramienta que ayude a nuestra comunidad?</h2>
+            <p>Nos encantaría escucharla y posiblemente construirla juntos.</p>
+            <a href="#" class="cta-btn" onclick="openFeedback()">Cuéntanos tu idea</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2025 El Oso News - Madrid, España</p>
+            <p>Hecho con ❤️ para la comunidad madrileña</p>
+            <p><a href="mailto:hola@eloso.news">hola@eloso.news</a></p>
+        </div>
+    </footer>
+
+    <!-- Restaurant Finder Modal -->
+    <div id="restaurantModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('restaurantModal')">&times;</span>
+            <h3>🍽️ Encuentra tu restaurante perfecto</h3>
+            <form id="restaurantForm">
+                <select id="cuisine" required>
+                    <option value="">¿Qué tipo de cocina prefieres?</option>
+                    <option value="española">Española</option>
+                    <option value="italiana">Italiana</option>
+                    <option value="japonesa">Japonesa</option>
+                    <option value="mexicana">Mexicana</option>
+                    <option value="china">China</option>
+                    <option value="peruana">Peruana</option>
+                    <option value="vegetariana">Vegetariana</option>
+                </select>
+
+                <select id="zone" required>
+                    <option value="">¿En qué zona de Madrid?</option>
+                    <option value="centro">Centro</option>
+                    <option value="salamanca">Salamanca</option>
+                    <option value="malasana">Malasaña</option>
+                    <option value="chueca">Chueca</option>
+                    <option value="chamberi">Chamberí</option>
+                    <option value="retiro">Retiro</option>
+                    <option value="lavapiés">Lavapiés</option>
+                </select>
+
+                <select id="budget" required>
+                    <option value="">¿Cuál es tu presupuesto?</option>
+                    <option value="economico">Económico (€0-20)</option>
+                    <option value="medio">Medio (€20-40)</option>
+                    <option value="alto">Alto (€40-70)</option>
+                    <option value="premium">Premium (€70+)</option>
+                </select>
+
+                <select id="occasion" required>
+                    <option value="">¿Para qué ocasión?</option>
+                    <option value="casual">Comida casual</option>
+                    <option value="cita">Primera cita</option>
+                    <option value="negocios">Cena de negocios</option>
+                    <option value="familia">Cena familiar</option>
+                    <option value="celebracion">Celebración</option>
+                </select>
+
+                <button type="submit" class="modal-btn">Encontrar Restaurante</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Newsletter Signup Modal -->
+    <div id="newsletterModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('newsletterModal')">&times;</span>
+            <h3>📧 Suscríbete a El Oso News</h3>
+            <p>Recibe los mejores planes de Madrid en tu email</p>
+            <form id="newsletterForm">
+                <input type="email" placeholder="Tu email" required>
+                <input type="text" placeholder="Tu nombre (opcional)">
+                <select>
+                    <option value="">¿En qué distrito vives?</option>
+                    <option value="centro">Centro</option>
+                    <option value="salamanca">Salamanca</option>
+                    <option value="chamberi">Chamberí</option>
+                    <option value="retiro">Retiro</option>
+                    <option value="otros">Otros</option>
+                </select>
+                <button type="submit" class="modal-btn">Suscribirse Gratis</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('feedbackModal')">&times;</span>
+            <h3>💡 Comparte tu idea</h3>
+            <form id="feedbackForm">
+                <input type="text" placeholder="Tu nombre" required>
+                <input type="email" placeholder="Tu email" required>
+                <input type="text" placeholder="Título de tu idea" required>
+                <textarea placeholder="Cuéntanos tu idea en detalle..." rows="4" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; resize: vertical;"></textarea>
+                <button type="submit" class="modal-btn">Enviar Idea</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                alert(`Buscando: "${query}"\n\nEsta funcionalidad se conectaría con tu base de datos de restaurantes y eventos.`);
+            }
+        }
+
+        // Modal functions
+        function openRestaurantFinder() {
+            document.getElementById('restaurantModal').style.display = 'block';
+        }
+
+        function openNewsletterSignup() {
+            document.getElementById('newsletterModal').style.display = 'block';
+        }
+
+        function openFeedback() {
+            document.getElementById('feedbackModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Form submissions
+        document.getElementById('restaurantForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const cuisine = document.getElementById('cuisine').value;
+            const zone = document.getElementById('zone').value;
+            const budget = document.getElementById('budget').value;
+            const occasion = document.getElementById('occasion').value;
+            
+            if (cuisine && zone && budget && occasion) {
+                alert(`¡Perfecto! Basándome en tus preferencias:\n\n🍽️ Cocina: ${cuisine}\n📍 Zona: ${zone}\n💰 Presupuesto: ${budget}\n🎯 Ocasión: ${occasion}\n\nAquí mostrarías los restaurantes recomendados de tu base de datos.`);
+                closeModal('restaurantModal');
+            }
+        });
+
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('¡Gracias por suscribirte! Este form se conectaría con tu sistema de email marketing.');
+            closeModal('newsletterModal');
+        });
+
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('¡Gracias por tu idea! La revisaremos pronto.');
+            closeModal('feedbackModal');
+        });
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
