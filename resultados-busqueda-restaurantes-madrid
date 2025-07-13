@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Restaurantes - El Oso News</title>
+    <meta name="description" content="Los mejores restaurantes en Madrid según tus preferencias">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e67e22;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #e67e22;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .results-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .results-header .highlight {
+            color: #e67e22;
+        }
+
+        .results-header p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .start-over-btn {
+            background: transparent;
+            color: #e67e22;
+            border: 2px solid #e67e22;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .start-over-btn:hover {
+            background: #e67e22;
+            color: white;
+        }
+
+        /* Filters */
+        .filters-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .results-count {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .sort-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sort-container select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        /* Restaurant Grid */
+        .restaurants-grid {
+            display: grid;
+            gap: 30px;
+        }
+
+        .restaurant-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            gap: 25px;
+            align-items: start;
+            transition: transform 0.3s;
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        /* Restaurant Image */
+        .restaurant-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, #ff9a56, #ff6b35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Restaurant Info */
+        .restaurant-info {
+            flex: 1;
+        }
+
+        .restaurant-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .restaurant-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .restaurant-type {
+            font-size: 0.9rem;
+            color: #e67e22;
+            font-weight: 600;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stars {
+            color: #f39c12;
+            font-size: 1.1rem;
+        }
+
+        .rating-number {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .rating-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .restaurant-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #e67e22;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .tag.secondary {
+            background: #95a5a6;
+        }
+
+        .restaurant-description {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .restaurant-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .price-info {
+            font-weight: 600;
+            color: #27ae60;
+            font-size: 0.9rem;
+        }
+
+        /* Action Buttons */
+        .restaurant-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 150px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #229954;
+        }
+
+        .btn-secondary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #2980b9;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #e67e22;
+            border: 2px solid #e67e22;
+        }
+
+        .btn-outline:hover {
+            background: #e67e22;
+            color: white;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 0.9rem;
+            padding: 8px 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .find-member {
+            margin-bottom: 25px;
+        }
+
+        .find-member label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .find-member input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .search-location input {
+            margin-bottom: 10px;
+        }
+
+        .subscribe-section {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .subscribe-section h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .subscribe-steps {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .subscribe-steps li {
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .subscribe-btn {
+            width: 100%;
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+                position: static;
+            }
+
+            .restaurant-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .restaurant-actions {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                flex-direction: row;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .filters-container {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .restaurant-card {
+                padding: 20px;
+            }
+
+            .restaurant-image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">🐻 El Oso</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="restaurant-finder.html">Restaurantes</a></li>
+                <li><a href="#eventos">Eventos</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Results Header -->
+        <div class="results-header">
+            <h1>Aquí están tus <span class="highlight">restaurantes perfectos</span></h1>
+            <p>Encontramos estos increíbles lugares basados en tus preferencias</p>
+            <a href="restaurant-finder.html" class="start-over-btn">Empezar de Nuevo</a>
+        </div>
+
+        <div class="main-layout">
+            <!-- Main Results -->
+            <div class="results-main">
+                <!-- Filters -->
+                <div class="filters-container">
+                    <div class="results-count">Mostrando 1 - 3 de 3 Resultados</div>
+                    <div class="sort-container">
+                        <label for="sort">Ordenar resultados:</label>
+                        <select id="sort">
+                            <option value="relevance">Más Relevantes</option>
+                            <option value="rating">Mejor Valorados</option>
+                            <option value="price-low">Precio: Menor a Mayor</option>
+                            <option value="price-high">Precio: Mayor a Menor</option>
+                            <option value="distance">Más Cercanos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Restaurant Results -->
+                <div class="restaurants-grid">
+                    <!-- Restaurant 1 -->
+                    <div class="restaurant-card">
+                        <div class="restaurant-image">🍝</div>
+                        
+                        <div class="restaurant-info">
+                            <div class="restaurant-header">
+                                <div>
+                                    <h3 class="restaurant-name">Osteria del Borgo</h3>
+                                    <div class="restaurant-type">Italiana • Pasta</div>
+                                </div>
+                                <div class="rating">
+                                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                                    <span class="rating-number">4.8</span>
+                                    <span class="rating-count">(127 reseñas)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="restaurant-tags">
+                                <span class="tag">Pasta Fresca</span>
+                                <span class="tag secondary">Terraza</span>
+                                <span class="tag secondary">Reservas</span>
+                            </div>
+                            
+                            <p class="restaurant-description">
+                                "Osteria del Borgo es un auténtico rincón italiano en el corazón de Malasaña. Especializada en pasta fresca artesanal y pizzas al horno de leña, este acogedor restaurante ofrece una experiencia gastronómica italiana auténtica."
+                            </p>
+                            
+                            <div class="restaurant-location">
+                                📍 Calle Fuencarral, 85, Malasaña, Madrid
+                            </div>
+                            
+                            <div class="price-info">€€ • 25-40€ por persona</div>
+                        </div>
+                        
+                        <div class="restaurant-actions">
+                            <a href="#" class="btn btn-primary">Ver Menú</a>
+                            <a href="#" class="btn btn-secondary">Reservar Mesa</a>
+                            <a href="tel:+34912345678" class="btn btn-outline">📞 Llamar</a>
+                            <div class="contact-info">
+                                📞 +34 912 345 678
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Restaurant 2 -->
+                    <div class="restaurant-card">
+                        <div class="restaurant-image">🍱</div>
+                        
+                        <div class="restaurant-info">
+                            <div class="restaurant-header">
+                                <div>
+                                    <h3 class="restaurant-name">Sakura Sushi Bar</h3>
+                                    <div class="restaurant-type">Japonesa • Sushi</div>
+                                </div>
+                                <div class="rating">
+                                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                                    <span class="rating-number">4.9</span>
+                                    <span class="rating-count">(89 reseñas)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="restaurant-tags">
+                                <span class="tag">Sushi Premium</span>
+                                <span class="tag secondary">Omakase</span>
+                                <span class="tag secondary">Barra</span>
+                            </div>
+                            
+                            <p class="restaurant-description">
+                                "Sakura Sushi Bar ofrece la experiencia sushi más auténtica de Madrid. Con pescado fresco traído diariamente y un chef japonés con 15 años de experiencia, cada pieza es una obra de arte culinario."
+                            </p>
+                            
+                            <div class="restaurant-location">
+                                📍 Calle Claudio Coello, 42, Salamanca, Madrid
+                            </div>
+                            
+                            <div class="price-info">€€€ • 45-65€ por persona</div>
+                        </div>
+                        
+                        <div class="restaurant-actions">
+                            <a href="#" class="btn btn-primary">Ver Carta</a>
+                            <a href="#" class="btn btn-secondary">Reservar</a>
+                            <a href="tel:+34913456789" class="btn btn-outline">📞 Llamar</a>
+                            <div class="contact-info">
+                                📞 +34 913 456 789
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Restaurant 3 -->
+                    <div class="restaurant-card">
+                        <div class="restaurant-image">🥘</div>
+                        
+                        <div class="restaurant-info">
+                            <div class="restaurant-header">
+                                <div>
+                                    <h3 class="restaurant-name">Casa Lucio</h3>
+                                    <div class="restaurant-type">Española • Tradicional</div>
+                                </div>
+                                <div class="rating">
+                                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                                    <span class="rating-number">4.7</span>
+                                    <span class="rating-count">(312 reseñas)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="restaurant-tags">
+                                <span class="tag">Huevos Rotos</span>
+                                <span class="tag secondary">Tradicional</span>
+                                <span class="tag secondary">Histórico</span>
+                            </div>
+                            
+                            <p class="restaurant-description">
+                                "Casa Lucio es una institución madrileña desde 1974. Famoso por sus huevos rotos y cocina tradicional española, ha sido visitado por personalidades de todo el mundo. Un clásico imperdible de Madrid."
+                            </p>
+                            
+                            <div class="restaurant-location">
+                                📍 Calle Cava Baja, 35, La Latina, Madrid
+                            </div>
+                            
+                            <div class="price-info">€€€ • 40-60€ por persona</div>
+                        </div>
+                        
+                        <div class="restaurant-actions">
+                            <a href="#" class="btn btn-primary">Ver Carta</a>
+                            <a href="#" class="btn btn-secondary">Reservar</a>
+                            <a href="tel:+34913653252" class="btn btn-outline">📞 Llamar</a>
+                            <div class="contact-info">
+                                📞 +34 913 653 252
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="find-member">
+                    <h3>Encuentra Restaurante</h3>
+                    <label>¿Qué necesitas?</label>
+                    <input type="text" placeholder="Nombre o palabra clave">
+                    
+                    <div class="search-location">
+                        <label>Buscar por ubicación:</label>
+                        <input type="text" placeholder="Ciudad o código postal">
+                        <button class="btn btn-primary" style="width: 100%;">Buscar</button>
+                    </div>
+                </div>
+
+                <div class="subscribe-section">
+                    <h4>Únete a Nuestra Comunidad</h4>
+                    <ol class="subscribe-steps">
+                        <li>1. Registrar una cuenta</li>
+                        <li>2. Crear un listado buscable</li>
+                        <li>3. Conéctate con más clientes</li>
+                    </ol>
+                    <button class="subscribe-btn">Haga clic para suscribirse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load preferences from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const preferences = localStorage.getItem('restaurantPreferences');
+            if (preferences) {
+                const prefs = JSON.parse(preferences);
+                console.log('User preferences:', prefs);
+                
+                // You could use these preferences to filter/customize the results
+                // For now, we're showing static results
+            }
+        });
+
+        // Sort functionality
+        document.getElementById('sort').addEventListener('change', function() {
+            const sortValue = this.value;
+            // Here you would implement actual sorting logic
+            console.log('Sorting by:', sortValue);
+        });
+
+        // Add click tracking for analytics
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const action = this.textContent.trim();
+                const restaurantName = this.closest('.restaurant-card')?.querySelector('.restaurant-name')?.textContent;
+                
+                console.log('Button clicked:', {
+                    action: action,
+                    restaurant: restaurantName,
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Here you would send this data to your analytics
+            });
+        });
+
+        // Phone number click tracking
+        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+            link.addEventListener('click', function() {
+                const phoneNumber = this.href.replace('tel:', '');
+                const restaurantName = this.closest('.restaurant-card')?.querySelector('.restaurant-name')?.textContent;
+                
+                console.log('Phone clicked:', {
+                    phone: phoneNumber,
+                    restaurant: restaurantName,
+                    timestamp: new Date().toISOString()
+                });
+            });
+        });
+    </script>
+</body>
+</html>
