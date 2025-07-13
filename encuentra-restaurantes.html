@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Restaurantes - El Oso News</title>
+    <meta name="description" content="Encuentra tu restaurante perfecto en Madrid con nuestro quiz personalizado">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e67e22;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #e67e22;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-section .highlight {
+            color: #e67e22;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .hero-section .tagline {
+            font-size: 1.1rem;
+            color: #e67e22;
+            font-weight: 600;
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 50px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .quiz-icon {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            color: #e67e22;
+        }
+
+        .quiz-container h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .quiz-container p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Form Styles */
+        .quiz-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1rem;
+        }
+
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            background: white;
+        }
+
+        .form-group select:focus, .form-group input:focus {
+            outline: none;
+            border-color: #e67e22;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            min-width: 160px;
+        }
+
+        .btn-primary {
+            background: #e67e22;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #e67e22;
+            border: 2px solid #e67e22;
+        }
+
+        .btn-secondary:hover {
+            background: #e67e22;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #e67e22;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+
+            .quiz-container {
+                padding: 30px 20px;
+            }
+
+            .btn-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">🐻 El Oso</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="restaurant-finder.html">Restaurantes</a></li>
+                <li><a href="#eventos">Eventos</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1>Encuentra tu próximo gran <span class="highlight">restaurante en Madrid</span></h1>
+            <p>Descubre increíbles restaurantes, cafés y joyas ocultas por todo Madrid</p>
+            <p class="tagline">Rápido. Fácil. Siempre delicioso.</p>
+        </section>
+
+        <!-- Quiz Container -->
+        <div class="quiz-container">
+            <div class="quiz-icon">🍽️</div>
+            <h2>Buscador de Restaurantes</h2>
+            <p>¿No sabes dónde comer? Haz nuestro quiz rápido y descubre tu lugar perfecto para cenar en Madrid.</p>
+            
+            <form class="quiz-form" id="restaurantQuiz">
+                <div class="form-group">
+                    <label for="cuisine">¿Qué tipo de cocina prefieres?</label>
+                    <select id="cuisine" name="cuisine" required>
+                        <option value="">Selecciona tipo de cocina</option>
+                        <option value="española">Española 🥘</option>
+                        <option value="italiana">Italiana 🍝</option>
+                        <option value="japonesa">Japonesa 🍱</option>
+                        <option value="mexicana">Mexicana 🌮</option>
+                        <option value="china">China 🥢</option>
+                        <option value="peruana">Peruana 🐟</option>
+                        <option value="vegetariana">Vegetariana 🥗</option>
+                        <option value="argentina">Argentina 🥩</option>
+                        <option value="india">India 🍛</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="zone">¿En qué zona de Madrid?</label>
+                    <select id="zone" name="zone" required>
+                        <option value="">Selecciona zona</option>
+                        <option value="centro">Centro 🏛️</option>
+                        <option value="salamanca">Salamanca 💎</option>
+                        <option value="malasana">Malasaña 🎨</option>
+                        <option value="chueca">Chueca 🌈</option>
+                        <option value="chamberi">Chamberí 🏘️</option>
+                        <option value="retiro">Retiro 🌳</option>
+                        <option value="lavapies">Lavapiés 🌍</option>
+                        <option value="la-latina">La Latina 🍻</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="budget">¿Cuál es tu presupuesto por persona?</label>
+                    <select id="budget" name="budget" required>
+                        <option value="">Selecciona presupuesto</option>
+                        <option value="economico">Económico (€10-25) 💰</option>
+                        <option value="medio">Medio (€25-45) 💳</option>
+                        <option value="alto">Alto (€45-70) 💎</option>
+                        <option value="premium">Premium (€70+) 👑</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="occasion">¿Para qué ocasión?</label>
+                    <select id="occasion" name="occasion" required>
+                        <option value="">Selecciona ocasión</option>
+                        <option value="casual">Comida casual 😊</option>
+                        <option value="cita">Primera cita 💕</option>
+                        <option value="negocios">Cena de negocios 💼</option>
+                        <option value="familia">Cena familiar 👨‍👩‍👧‍👦</option>
+                        <option value="celebracion">Celebración especial 🎉</option>
+                        <option value="grupo">Cena con amigos 👥</option>
+                    </select>
+                </div>
+
+                <div class="btn-container">
+                    <button type="submit" class="btn btn-primary">🔍 Buscar Restaurantes</button>
+                    <a href="restaurant-results.html" class="btn btn-secondary">🎲 Sorpréndeme</a>
+                </div>
+            </form>
+
+            <div class="loading" id="loadingState">
+                <div class="spinner"></div>
+                <p>Buscando los mejores restaurantes para ti...</p>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Resultados Personalizados</h3>
+                <p>Responde unas preguntas rápidas para obtener recomendaciones hechas solo para ti</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📍</div>
+                <h3>Favoritos Locales</h3>
+                <p>Descubre tanto lugares populares como joyas ocultas por todo Madrid</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3>Calidad Garantizada</h3>
+                <p>Todas las recomendaciones están curadas por El Oso News con reseñas reales</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('restaurantQuiz').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            document.querySelector('.quiz-form').style.display = 'none';
+            document.getElementById('loadingState').style.display = 'block';
+            
+            // Get form data
+            const formData = new FormData(this);
+            const preferences = {
+                cuisine: formData.get('cuisine'),
+                zone: formData.get('zone'),
+                budget: formData.get('budget'),
+                occasion: formData.get('occasion')
+            };
+            
+            // Store preferences in localStorage for the results page
+            localStorage.setItem('restaurantPreferences', JSON.stringify(preferences));
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Redirect to results page
+                window.location.href = 'restaurant-results.html';
+            }, 2000);
+        });
+
+        // Add some interactive effects
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', function() {
+                this.style.borderColor = '#27ae60';
+                setTimeout(() => {
+                    this.style.borderColor = '#e0e6ed';
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
